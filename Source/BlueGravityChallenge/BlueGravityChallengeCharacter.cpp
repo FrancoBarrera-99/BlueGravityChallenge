@@ -4,6 +4,7 @@
 #include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Controller.h"
@@ -49,6 +50,11 @@ ABlueGravityChallengeCharacter::ABlueGravityChallengeCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+
+	// Create a skateboard
+	SkateboardMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SkateboardMeshComponent"));
+	SkateboardMesh->SetupAttachment(GetMesh());
+	MoveForwardLerpedValue = 0.0f;
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
@@ -100,19 +106,28 @@ void ABlueGravityChallengeCharacter::Move(const FInputActionValue& Value)
 
 	if (Controller != nullptr)
 	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
 		// get forward vector
-		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-	
-		// get right vector 
-		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		const FVector ForwardDirection = SkateboardMesh->GetForwardVector();
 
-		// add movement 
-		AddMovementInput(ForwardDirection, MovementVector.Y);
-		AddMovementInput(RightDirection, MovementVector.X);
+		// get right vector 
+		const FVector RightDirection = SkateboardMesh->GetRightVector();
+
+		// add movement only if we are moving forward
+		if (MovementVector.Y > 0.0f)
+		{
+			MoveForwardLerpedValue = FMath::Lerp(MoveForwardLerpedValue, MovementVector.Y, 0.01f);
+			AddMovementInput(ForwardDirection, MoveForwardLerpedValue);
+
+			float TurningMultiplier = 0.02;
+			if (GetVelocity().Z > 0 || GetMovementComponent()->IsFalling())
+			{
+				AddMovementInput(RightDirection, MovementVector.X);
+			}
+			else
+			{
+				AddMovementInput(RightDirection, MovementVector.X * TurningMultiplier);
+			}
+		}
 	}
 }
 

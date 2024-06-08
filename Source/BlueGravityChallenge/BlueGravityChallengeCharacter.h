@@ -11,6 +11,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
+class UStaticMeshComponent;
 struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
@@ -44,6 +45,9 @@ class ABlueGravityChallengeCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* SkateboardMesh;
+
 public:
 	ABlueGravityChallengeCharacter();
 	
@@ -55,6 +59,8 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	float MoveForwardLerpedValue;
 			
 
 protected:
