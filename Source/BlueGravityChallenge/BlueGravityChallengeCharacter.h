@@ -1,18 +1,21 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+
 #include "BlueGravityChallengeCharacter.generated.h"
 
+
+#pragma region ForwardDeclarations
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
 class UStaticMeshComponent;
+class UBGC_TrickComponent;
 struct FInputActionValue;
+#pragma endregion ForwardDeclarations
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
@@ -47,6 +50,8 @@ class ABlueGravityChallengeCharacter : public ACharacter
 
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* SkateboardMesh;
+
+	UBGC_TrickComponent* TrickComponent;
 
 public:
 	ABlueGravityChallengeCharacter();
