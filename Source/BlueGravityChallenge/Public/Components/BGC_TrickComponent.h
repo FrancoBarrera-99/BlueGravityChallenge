@@ -19,6 +19,7 @@ class BLUEGRAVITYCHALLENGE_API UBGC_TrickComponent : public UActorComponent
 {
 	GENERATED_BODY()
 protected:
+	UPROPERTY()
 	TScriptInterface<IBGC_TrickInterface> CurrentTrick;
 
 	TObjectPtr<ABlueGravityChallengeCharacter> Character;

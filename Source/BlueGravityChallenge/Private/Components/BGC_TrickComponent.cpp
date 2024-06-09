@@ -26,7 +26,7 @@ void UBGC_TrickComponent::BeginPlay()
 
 void UBGC_TrickComponent::OnTrickFinished(int32 InEarnedPoints)
 {
-	if (IsValid(Character))
+	if (IsValid(Character) && InEarnedPoints > 0)
 	{	
 		Character->AddRewardPoints(InEarnedPoints);
 	}

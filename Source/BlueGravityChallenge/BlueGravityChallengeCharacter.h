@@ -7,6 +7,10 @@
 #include "BlueGravityChallengeCharacter.generated.h"
 
 
+#pragma region Delegates
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEarnedPointsChangedDelegate, int32, NewPoints);
+#pragma endregion Delegates
+
 #pragma region ForwardDeclarations
 class USpringArmComponent;
 class UCameraComponent;
@@ -54,6 +58,10 @@ class ABlueGravityChallengeCharacter : public ACharacter
 	UBGC_TrickComponent* TrickComponent;
 
 	int32 RewardPoints;
+
+public:
+	UPROPERTY(BlueprintAssignable)
+	FOnEarnedPointsChangedDelegate OnEarnedPointsChanged;
 
 public:
 	ABlueGravityChallengeCharacter();

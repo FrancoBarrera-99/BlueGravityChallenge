@@ -70,6 +70,7 @@ ABlueGravityChallengeCharacter::ABlueGravityChallengeCharacter() :
 void ABlueGravityChallengeCharacter::AddRewardPoints(int32 InRewardPoints)
 {
 	RewardPoints += InRewardPoints;
+	OnEarnedPointsChanged.Broadcast(RewardPoints);
 }
 
 void ABlueGravityChallengeCharacter::BeginPlay()
