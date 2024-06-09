@@ -12,6 +12,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Objects/BGC_AirtimeTrick.h"
+
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -88,7 +90,7 @@ void ABlueGravityChallengeCharacter::SetupPlayerInputComponent(UInputComponent* 
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		
 		// Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ABlueGravityChallengeCharacter::JumpTrick);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
 		// Moving
@@ -146,4 +148,12 @@ void ABlueGravityChallengeCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void ABlueGravityChallengeCharacter::JumpTrick()
+{
+	TObjectPtr<UBGC_AirtimeTrick> AirtimeTrick = NewObject<UBGC_AirtimeTrick>(this);
+	AirtimeTrick->SetCharacter(this);
+	TrickComponent->PerformTrick(TScriptInterface<IBGC_TrickInterface>(AirtimeTrick));
+	Jump();
 }

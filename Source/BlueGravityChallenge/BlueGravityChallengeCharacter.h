@@ -65,6 +65,9 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
+	/** Called for looking input */
+	void JumpTrick();
+
 	float MoveForwardLerpedValue;
 			
 

@@ -7,7 +7,7 @@
 
 
 #pragma region Delegates
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTrickFinishedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTrickFinishedDelegate, int32, EarnedPoints);
 #pragma endregion Delegates
 
 // This class does not need to be modified.

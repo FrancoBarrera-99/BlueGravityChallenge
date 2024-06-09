@@ -13,6 +13,8 @@ UBGC_TrickComponent::UBGC_TrickComponent()
 
 void UBGC_TrickComponent::PerformTrick(TScriptInterface<IBGC_TrickInterface> Trick)
 {
+	Trick->PerformTrick();
+	Trick->OnTrickFinished().AddDynamic(this, &ThisClass::OnTrickFinished);
 }
 
 
@@ -23,6 +25,15 @@ void UBGC_TrickComponent::BeginPlay()
 
 	// ...
 	
+}
+
+void UBGC_TrickComponent::OnTrickFinished(int32 InEarnedPoints)
+{
+	if (GEngine)
+	{	
+		FString PointsString = FString::FromInt(InEarnedPoints);
+		GEngine->AddOnScreenDebugMessage(1, 3.0f, FColor::Green, PointsString);
+	}
 }
 
 
