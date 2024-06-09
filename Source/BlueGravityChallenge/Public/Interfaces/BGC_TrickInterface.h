@@ -28,5 +28,6 @@ class BLUEGRAVITYCHALLENGE_API IBGC_TrickInterface
 public:
 
 	virtual void PerformTrick() = 0;
+	virtual void AbortTrick() = 0;
 	virtual FTrickFinishedDelegate& OnTrickFinished() = 0;
 };

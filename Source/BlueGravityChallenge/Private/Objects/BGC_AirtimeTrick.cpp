@@ -26,6 +26,11 @@ void UBGC_AirtimeTrick::PerformTrick()
 	}
 }
 
+void UBGC_AirtimeTrick::AbortTrick()
+{
+    CleanUp();
+}
+
 FTrickFinishedDelegate& UBGC_AirtimeTrick::OnTrickFinished()
 {
 	return TrickFinished;

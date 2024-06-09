@@ -51,6 +51,8 @@ public:
 #pragma region IBGC_TrickInterface
 	void PerformTrick() override;
 
+	void AbortTrick() override;
+
 	FTrickFinishedDelegate& OnTrickFinished() override;
 #pragma endregion IBGC_TrickInterface
 

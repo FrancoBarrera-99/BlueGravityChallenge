@@ -13,8 +13,14 @@ UBGC_TrickComponent::UBGC_TrickComponent()
 
 void UBGC_TrickComponent::PerformTrick(TScriptInterface<IBGC_TrickInterface> Trick)
 {
+	if (CurrentTrick)
+	{
+		CurrentTrick->AbortTrick();
+	}
+
 	Trick->PerformTrick();
 	Trick->OnTrickFinished().AddDynamic(this, &ThisClass::OnTrickFinished);
+	CurrentTrick = Trick;
 }
 
 

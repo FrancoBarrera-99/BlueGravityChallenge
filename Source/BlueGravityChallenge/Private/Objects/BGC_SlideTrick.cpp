@@ -60,6 +60,11 @@ void UBGC_SlideTrick::PerformTrick()
 	StartSlide();
 }
 
+void UBGC_SlideTrick::AbortTrick()
+{
+	EndSlide();
+}
+
 FTrickFinishedDelegate& UBGC_SlideTrick::OnTrickFinished()
 {
 	return TrickFinished;

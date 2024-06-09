@@ -41,6 +41,8 @@ public:
 #pragma region ITrickInterface
 	void PerformTrick() override;
 
+	void AbortTrick() override;
+
 	FTrickFinishedDelegate& OnTrickFinished() override;
 #pragma endregion ITrickInterface
 

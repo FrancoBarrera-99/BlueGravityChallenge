@@ -14,6 +14,8 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BLUEGRAVITYCHALLENGE_API UBGC_TrickComponent : public UActorComponent
 {
 	GENERATED_BODY()
+protected:
+	TScriptInterface<IBGC_TrickInterface> CurrentTrick;
 
 public:	
 	// Sets default values for this component's properties
