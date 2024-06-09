@@ -41,6 +41,12 @@ protected:
 
 	UAnimMontage* SlideMontage;
 
+	FVector InitialLocation;
+
+	FVector FinalLocation;
+
+	int32 BasePointReward;
+
 public:
 	UBGC_SlideTrick();
 

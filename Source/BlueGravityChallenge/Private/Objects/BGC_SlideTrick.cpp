@@ -7,7 +7,7 @@
 
 
 UBGC_SlideTrick::UBGC_SlideTrick()
-	: CurrentDistance(0.0f), SlideSpeed(200.0f)
+	: CurrentDistance(0.0f), SlideSpeed(200.0f), InitialLocation(FVector::ZeroVector), FinalLocation(FVector::ZeroVector), BasePointReward(15)
 {
 }
 
@@ -27,6 +27,7 @@ void UBGC_SlideTrick::StartSlide()
 		// Find the closest point on the spline to the character's current location
 		FVector CharacterLocation = Character->GetActorLocation();
 		float InputKey = SplineComponent->FindInputKeyClosestToWorldLocation(CharacterLocation);
+		InitialLocation = SplineComponent->GetLocationAtSplineInputKey(InputKey, ESplineCoordinateSpace::World);
 		CurrentDistance = SplineComponent->GetDistanceAlongSplineAtSplineInputKey(InputKey);
 
 		// Determine slide direction based on character's movement direction
@@ -90,6 +91,8 @@ void UBGC_SlideTrick::SlideAlongSpline()
 
 	Character->SetActorLocationAndRotation(NewLocation, NewRotation);
 
+	FinalLocation = NewLocation;
+
 	if (CurrentDistance >= SplineComponent->GetSplineLength() || CurrentDistance < 0)
 	{
 		EndSlide();
@@ -103,6 +106,9 @@ void UBGC_SlideTrick::EndSlide()
 	{
 		Character->StopAnimMontage(SlideMontage);
 	}
+	const float CoveredDistance = FVector::Dist(FinalLocation, InitialLocation);
+	const int32 EarnedPoints = FMath::Abs(BasePointReward * (CoveredDistance / 100.0f));
+	TrickFinished.Broadcast(EarnedPoints);
 }
 
 void UBGC_SlideTrick::LoadMontageFromPath(const FString& MontagePath)
