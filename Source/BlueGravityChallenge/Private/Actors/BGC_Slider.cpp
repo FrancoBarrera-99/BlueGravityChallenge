@@ -4,6 +4,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "BlueGravityChallenge/BlueGravityChallengeCharacter.h"
+#include "Objects/BGC_SlideTrick.h"
+#include "Components/BGC_TrickComponent.h"
+#include "GameFramework/PawnMovementComponent.h"
 
 
 // Sets default values
@@ -56,7 +59,16 @@ void ABGC_Slider::OnTriggerOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	TObjectPtr<ABlueGravityChallengeCharacter> Character = Cast<ABlueGravityChallengeCharacter>(OtherActor);
 	if (IsValid(Character))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Right Trigger Overlapped")));
+		if (Character->GetMovementComponent()->IsFalling())
+		{
+			TObjectPtr<UBGC_SlideTrick> SlideTrick = NewObject<UBGC_SlideTrick>(this);
+			SlideTrick->Initialize(Character, SplineComponent);
+			TObjectPtr<UBGC_TrickComponent> CharacterTrickComponent = Character->GetTrickComponent();
+			if (IsValid(CharacterTrickComponent))
+			{
+				CharacterTrickComponent->PerformTrick(SlideTrick);
+			}
+		}
 	}
 }
 
