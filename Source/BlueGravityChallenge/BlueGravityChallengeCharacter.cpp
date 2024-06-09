@@ -20,7 +20,8 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 //////////////////////////////////////////////////////////////////////////
 // ABlueGravityChallengeCharacter
 
-ABlueGravityChallengeCharacter::ABlueGravityChallengeCharacter()
+ABlueGravityChallengeCharacter::ABlueGravityChallengeCharacter() :
+	RewardPoints(0)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -64,6 +65,11 @@ ABlueGravityChallengeCharacter::ABlueGravityChallengeCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+}
+
+void ABlueGravityChallengeCharacter::AddRewardPoints(int32 InRewardPoints)
+{
+	RewardPoints += InRewardPoints;
 }
 
 void ABlueGravityChallengeCharacter::BeginPlay()

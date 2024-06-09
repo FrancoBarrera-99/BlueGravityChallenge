@@ -53,9 +53,12 @@ class ABlueGravityChallengeCharacter : public ACharacter
 
 	UBGC_TrickComponent* TrickComponent;
 
+	int32 RewardPoints;
+
 public:
 	ABlueGravityChallengeCharacter();
 	
+	void AddRewardPoints(int32 InRewardPoints);
 
 protected:
 

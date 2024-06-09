@@ -7,6 +7,10 @@
 #include "BGC_TrickComponent.generated.h"
 
 
+#pragma region ForwardDeclarations
+class ABlueGravityChallengeCharacter;
+#pragma region ForwardDeclarations
+
 /**
  *	Component attached to a character for managing tricks events.
  */
@@ -17,10 +21,9 @@ class BLUEGRAVITYCHALLENGE_API UBGC_TrickComponent : public UActorComponent
 protected:
 	TScriptInterface<IBGC_TrickInterface> CurrentTrick;
 
-public:	
-	// Sets default values for this component's properties
-	UBGC_TrickComponent();
+	TObjectPtr<ABlueGravityChallengeCharacter> Character;
 
+public:	
 	void PerformTrick(TScriptInterface<IBGC_TrickInterface> Trick);
 
 protected:
@@ -29,10 +32,4 @@ protected:
 
 	UFUNCTION()
 	void OnTrickFinished(int32 InEarnedPoints);
-
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
 };
